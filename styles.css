@@ -1,0 +1,13 @@
+/* 
+ * This file has been refactored into multiple smaller files:
+ * - base.css: CSS variables, themes, foundational styles
+ * - components.css: Reusable UI components (buttons, inputs, badges, tooltips)
+ * - layout.css: Layout structures (containers, grids, headers)
+ * - sections.css: Major page sections (side panel, translator, history, analysis)
+ * - mobile.css: Responsive breakpoints and mobile-specific styles
+ * 
+ * All styles have been moved to the files listed above.
+ * This file is kept for reference only and can be deleted.
+ */
+
+/* removed: all CSS content (moved to base.css, components.css, layout.css, sections.css, mobile.css) */

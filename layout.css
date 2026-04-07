@@ -1,0 +1,194 @@
+/* Layout structures: containers, grids, headers */
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.controls {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.settings {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.tone-selector label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+}
+
+.tone-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.theme-selector {
+    display: flex;
+    align-items: center;
+}
+
+.font-size-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.realtime-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.realtime-toggle input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.translator {
+    display: grid;
+    gap: 30px;
+}
+
+.comparison-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.input-section,
+.output-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-header,
+.output-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.char-counter {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+}
+
+.output-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.button-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 0;
+    clear: both;
+}
+
+.output {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    min-height: 200px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    overflow-y: auto;
+}
+
+.highlighted-view {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    min-height: 200px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-y: auto;
+}
+
+.output h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.output p {
+    margin-bottom: 15px;
+    line-height: 1.7;
+}
+
+.output p:last-child {
+    margin-bottom: 0;
+}
+
+.output.updating {
+    opacity: 0.5;
+    transform: scale(0.98);
+}
+
+.output.updated {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
