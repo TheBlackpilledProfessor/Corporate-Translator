@@ -1,4 +1,5 @@
 // AI translation logic and analysis
+import { AIProvider } from './api.js';
 
 // Input sanitization
 function sanitizeHTML(str) {
@@ -13,7 +14,8 @@ function sanitizeText(text) {
 }
 
 export class Translator {
-    constructor() {
+    constructor(aiProvider) {
+        this.ai = aiProvider;
         this.realtimeEnabled = false;
         this.debounceTimer = null;
         
@@ -70,6 +72,9 @@ export class Translator {
                 outputElement.innerHTML = '<span class="placeholder">Enter some corporate speak first...</span>';
             }
             this.analysisSection.style.display = 'none';
+            if (window.dialog) {
+                window.dialog.alert('No Input', 'Enter some corporate speak first to translate.');
+            }
             return;
         }
         
@@ -90,61 +95,52 @@ Format your response like a human would write it:
 - Use natural paragraph breaks for readability`;
             
             // Get translation
-            const translationPromise = websim.chat.completions.create({
-                messages: [
-                    {
-                        role: "system",
-                        content: unifiedSystemPrompt
-                    },
-                    {
-                        role: "user",
-                        content: `Translate this corporate speak into plain language. Format with a title in <h3> tags and separate paragraphs in <p> tags:\n\n${text}`
-                    }
-                ]
-            });
+            const translationPromise = this.ai.chat([
+                {
+                    role: "system",
+                    content: unifiedSystemPrompt
+                },
+                {
+                    role: "user",
+                    content: `Translate this corporate speak into plain language. Format with a title in <h3> tags and separate paragraphs in <p> tags:\n\n${text}`
+                }
+            ]);
 
             // Get sentiment analysis
-            const sentimentPromise = websim.chat.completions.create({
-                messages: [
-                    {
-                        role: "system",
-                        content: `Analyze the sentiment of corporate text. Classify as one of: "neutral", "passive-aggressive", or "inflated". Respond with just the sentiment word.`
-                    },
-                    {
-                        role: "user",
-                        content: text
-                    }
-                ]
-            });
+            const sentimentPromise = this.ai.chat([
+                {
+                    role: "system",
+                    content: `Analyze the sentiment of corporate text. Classify as one of: "neutral", "passive-aggressive", or "inflated". Respond with just the sentiment word.`
+                },
+                {
+                    role: "user",
+                    content: text
+                }
+            ]);
 
             // Get intent explanation
-            const intentPromise = websim.chat.completions.create({
-                messages: [
-                    {
-                        role: "system",
-                        content: `Explain the underlying intent or goal behind this corporate statement in 1-2 concise sentences. Be direct about what they're really trying to achieve.`
-                    },
-                    {
-                        role: "user",
-                        content: text
-                    }
-                ]
-            });
+            const intentPromise = this.ai.chat([
+                {
+                    role: "system",
+                    content: `Explain the underlying intent or goal behind this corporate statement in 1-2 concise sentences. Be direct about what they're really trying to achieve.`
+                },
+                {
+                    role: "user",
+                    content: text
+                }
+            ]);
 
             // Get alternative phrasings
-            const suggestionsPromise = websim.chat.completions.create({
-                messages: [
-                    {
-                        role: "system",
-                        content: `Provide 3 alternative plain-language phrasings for this corporate text. Each should be clear, direct, and honest. Return them as a JSON array of strings.`
-                    },
-                    {
-                        role: "user",
-                        content: text
-                    }
-                ],
-                json: true
-            });
+            const suggestionsPromise = this.ai.chat([
+                {
+                    role: "system",
+                    content: `Provide 3 alternative plain-language phrasings for this corporate text. Each should be clear, direct, and honest. Return them as a JSON array of strings.`
+                },
+                {
+                    role: "user",
+                    content: text
+                }
+            ], { json: true });
 
             const [translation, sentiment, intent, suggestions] = await Promise.all([
                 translationPromise,
@@ -246,6 +242,9 @@ Format your response like a human would write it:
                 outputElement.innerHTML = '<span class="placeholder" style="color: #ff4444;">Translation failed. Try again.</span>';
             }
             console.error('Translation error:', error);
+            if (window.dialog) {
+                window.dialog.alert('Translation Error', 'Translation failed. Check your API configuration and try again.');
+            }
         } finally {
             this.translateBtn.classList.remove('loading');
         }
@@ -256,18 +255,16 @@ Format your response like a human would write it:
         aiNotesDiv.innerHTML = '<p class="placeholder-text">Generating insights...</p>';
         
         try {
-            const notes = await websim.chat.completions.create({
-                messages: [
-                    {
-                        role: "system",
-                        content: "Provide 2-3 brief bullet points about what makes this corporate text problematic or manipulative. Be insightful and critical."
-                    },
-                    {
-                        role: "user",
-                        content: `Original: ${original}\n\nTranslation: ${translated}`
-                    }
-                ]
-            });
+            const notes = await this.ai.chat([
+                {
+                    role: "system",
+                    content: "Provide 2-3 brief bullet points about what makes this corporate text problematic or manipulative. Be insightful and critical."
+                },
+                {
+                    role: "user",
+                    content: `Original: ${original}\n\nTranslation: ${translated}`
+                }
+            ]);
             
             aiNotesDiv.innerHTML = `<div style="font-size: 0.85rem; line-height: 1.6;">${sanitizeHTML(notes.content)}</div>`;
         } catch (error) {

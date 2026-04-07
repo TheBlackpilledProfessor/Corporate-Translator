@@ -11,239 +11,32 @@
     <link rel="stylesheet" href="mobile.css">
 </head>
 <body>
-    <button id="sidePanelToggle" class="side-panel-toggle" title="Toggle dictionary">📖</button>
-    
-    <div class="side-panel" id="sidePanel">
-        <div class="side-panel-header">
-            <h3>Dictionary & Notes</h3>
-            <button class="close-panel" id="closePanelBtn">✕</button>
-        </div>
-        
-        <div class="side-panel-content">
-            <div class="panel-section">
-                <h4>AI Notes</h4>
-                <div id="aiNotes" class="ai-notes">
-                    <p class="placeholder-text">AI insights will appear here after translation...</p>
-                </div>
-            </div>
-            
-            <div class="panel-section">
-                <h4>Jargon Dictionary</h4>
-                <input type="text" id="dictionarySearch" placeholder="Search buzzwords..." class="dictionary-search">
-                <div id="dictionaryList" class="dictionary-list"></div>
-            </div>
-        </div>
-    </div>
+    <!-- Side panel and toggle button injected here -->
+    <div id="sidePanelContainer"></div>
 
     <div class="container">
-        <header>
-            <h1>Corporate Speak Translator</h1>
-            <p class="subtitle">Decode the BS</p>
-        </header>
+        <!-- Header injected here -->
+        <div id="headerContainer"></div>
 
-        <div class="controls">
-            <div class="settings">
-                <label class="realtime-toggle">
-                    <input type="checkbox" id="realtimeToggle">
-                    <span>Real-time</span>
-                </label>
-                
-                <div class="theme-selector">
-                    <select id="themeSelect" class="theme-dropdown">
-                        <option value="dark">Dark</option>
-                        <option value="light">Light</option>
-                        <option value="blackpill">Blackpill</option>
-                        <option value="void">Void</option>
-                        <option value="matrix">Matrix</option>
-                    </select>
-                </div>
-                
-                <div class="font-size-controls">
-                    <button id="fontDecrease" class="icon-btn" title="Decrease font size">A-</button>
-                    <button id="fontIncrease" class="icon-btn" title="Increase font size">A+</button>
-                </div>
-            </div>
-        </div>
+        <!-- Controls injected here -->
+        <div id="controlsContainer"></div>
 
-        <div class="translator">
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-color finance"></div>
-                    <span>Finance</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color hr"></div>
-                    <span>HR</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color management"></div>
-                    <span>Management</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color tech"></div>
-                    <span>Tech</span>
-                </div>
-            </div>
+        <!-- Main translator section injected here -->
+        <div id="translatorContainer"></div>
 
-            <div id="dropZone" class="drop-zone">
-                <div class="drop-zone-content">
-                    <span class="drop-icon">📁</span>
-                    <p>Drop TXT file here</p>
-                    <span class="drop-subtext">or click to browse</span>
-                    <input type="file" id="fileInput" accept=".txt" hidden>
-                </div>
-            </div>
+        <!-- Analysis section injected here -->
+        <div id="analysisContainer"></div>
 
-            <div class="comparison-container">
-                <div class="input-section">
-                    <div class="input-header">
-                        <label for="corporateInput">Corporate Speak</label>
-                        <div class="input-meta">
-                            <span id="charCounter" class="char-counter">0 characters</span>
-                            <button id="clearInputBtn" class="clear-btn" title="Clear input">Clear</button>
-                        </div>
-                    </div>
-                    <textarea 
-                        id="corporateInput" 
-                        placeholder="Paste corporate jargon, job postings, or business speak here...&#10;&#10;Example: 'We're looking for a self-starter who can leverage synergies to drive holistic solutions in a fast-paced environment.'"
-                    ></textarea>
+        <!-- About section injected here -->
+        <div id="aboutContainer"></div>
 
-                </div>
-
-                <div class="output-section">
-                    <div class="output-header">
-                        <label for="translatedOutput">Translation</label>
-                        <div class="output-actions">
-                            <button id="downloadTxt" class="action-btn" title="Download as TXT">
-                                <span>TXT</span>
-                            </button>
-                            <button id="downloadPdf" class="action-btn" title="Download as PDF">
-                                <span>PDF</span>
-                            </button>
-                            <button id="copyBtn" class="copy-btn" title="Copy to clipboard">
-                                <span class="copy-icon">📋</span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="translatedOutput" class="output">
-                        <span class="placeholder">Translation will appear here...</span>
-                    </div>
-                    <div class="feedback-section" id="feedbackSection" style="display: none;">
-                        <button id="feedbackBtn" class="feedback-btn">📝 Suggest Correction</button>
-                        <div class="feedback-form" id="feedbackForm" style="display: none;">
-                            <textarea id="feedbackText" placeholder="How would you improve this translation?"></textarea>
-                            <div class="feedback-actions">
-                                <button id="submitFeedback" class="submit-feedback-btn">Submit</button>
-                                <button id="cancelFeedback" class="cancel-feedback-btn">Cancel</button>
-                            </div>
-                        </div>
-                        <div id="feedbackSuccess" class="feedback-success" style="display: none;">
-                            ✓ Thanks! Your feedback helps improve translations.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="button-section">
-                <button id="translateBtn" class="translate-btn">
-                    <span class="btn-text">Translate</span>
-                    <span class="loading-spinner"></span>
-                </button>
-                <button id="highlightActionsBtn" class="highlight-actions-btn">
-                    <span class="btn-text">Highlight Actions</span>
-                    <span class="loading-spinner"></span>
-                </button>
-            </div>
-        </div>
-
-        <div class="analysis-section" id="analysisSection" style="display: none;">
-            <div class="analysis-item">
-                <div class="analysis-label">Sentiment</div>
-                <div class="analysis-content">
-                    <span id="sentimentBadge" class="sentiment-badge"></span>
-                </div>
-            </div>
-
-            <div class="analysis-item">
-                <div class="analysis-label">Intent</div>
-                <div class="analysis-content" id="intentContent"></div>
-            </div>
-
-            <div class="analysis-item">
-                <div class="analysis-label">Alternative Phrasings</div>
-                <div class="suggestions-list" id="suggestionsList"></div>
-            </div>
-        </div>
-
-        <div class="about-section">
-            <button id="aboutToggle" class="about-toggle-btn">About</button>
-            <div class="about-content" id="aboutContent" style="display: none;">
-                <p>
-                    <strong>Corporate Speak Translator</strong> is an AI-powered tool designed to decode the obfuscated language of modern business communication. Using advanced language models, it cuts through jargon, buzzwords, and euphemisms to reveal what corporate messages actually mean.
-                </p>
-                <h3>How It Works</h3>
-                <p>
-                    Paste or type corporate text into the input field. The platform automatically highlights recognized buzzwords by category (Finance, HR, Management, Tech). Click "Translate" to receive a plain-language interpretation based on your selected tone. The AI analyzes sentiment, identifies underlying intent, and suggests alternative phrasings.
-                </p>
-                <h3>Translation Approach</h3>
-                <p>
-                    The translator uses a unified approach that combines blunt directness, sarcastic wit, and cynical realism to decode corporate jargon. It cuts through the BS while exposing the manipulation and absurdity hiding beneath business speak. Each translation is formatted with clear headings and paragraphs for easy reading.
-                </p>
-                <h3>Features</h3>
-                <ul>
-                    <li>AI-powered unified translation combining blunt, sarcastic, and cynical approaches</li>
-                    <li>Real-time translation mode for instant feedback as you type</li>
-                    <li>Sentiment analysis (Neutral, Passive-Aggressive, Inflated)</li>
-                    <li>Intent explanation revealing hidden goals</li>
-                    <li>Alternative phrasing suggestions you can apply with one click</li>
-                    <li>Action highlighting to identify buried instructions</li>
-                    <li>AI-generated insights about manipulative language patterns</li>
-                    <li>Translation history with search functionality</li>
-                    <li>Export to TXT and PDF with full analysis context</li>
-                    <li>Comprehensive jargon dictionary with 45+ buzzwords</li>
-                    <li>Feedback system for improving translation accuracy</li>
-                    <li>Multiple theme options: Dark, Light, Blackpill, Void, and Matrix</li>
-                    <li>File upload support for .txt documents</li>
-                </ul>
-                <h3>Privacy & Data</h3>
-                <p>
-                    All translations are processed using secure AI models. Your translation history is stored locally in your browser and never sent to external servers except for AI processing. You can clear your history at any time.
-                </p>
-                <h3>Tips</h3>
-                <ul>
-                    <li>Use Ctrl/Cmd + Enter to quickly translate without clicking the button</li>
-                    <li>Enable real-time mode for live translation as you type (1 second delay)</li>
-                    <li>Click on alternative phrasings to instantly replace the translation</li>
-                    <li>Use the "Highlight Actions" button to reveal hidden instructions in corporate text</li>
-                    <li>Open the side panel (📖 button) to access the jargon dictionary and AI insights</li>
-                    <li>Click any history item to restore that translation instantly</li>
-                    <li>Submit feedback to help improve translation accuracy over time</li>
-                    <li>Export to PDF to save translations with full sentiment and intent analysis</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="history-section">
-            <div class="history-header">
-                <h2>Translation History</h2>
-                <button id="clearHistoryBtn" class="clear-history-btn">Clear</button>
-            </div>
-            <div class="history-search">
-                <input 
-                    type="text" 
-                    id="historySearch" 
-                    placeholder="Search translations..."
-                    class="search-input"
-                >
-            </div>
-            <div id="historyList" class="history-list">
-                <span class="placeholder">No translations yet...</span>
-            </div>
-        </div>
-
-        <div class="tooltip" id="tooltip"></div>
+        <!-- History section injected here -->
+        <div id="historyContainer"></div>
     </div>
+
+    <!-- Dialogs and modals injected here -->
+    <div id="dialogsContainer"></div>
+    <div id="settingsContainer"></div>
 
     <script type="module" src="script.js"></script>
 </body>

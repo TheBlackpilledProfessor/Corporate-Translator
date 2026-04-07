@@ -28,10 +28,25 @@ export class HistoryManager {
         this.render();
         
         this.clearHistoryBtn.addEventListener('click', () => {
-            if (confirm('Clear all translation history?')) {
-                this.history = [];
-                localStorage.removeItem('translationHistory');
-                this.render();
+            if (this.history.length > 0) {
+                // Use custom dialog if available
+                if (window.dialog) {
+                    window.dialog.confirm(
+                        'Clear History',
+                        'Are you sure you want to delete all translation history? This cannot be undone.',
+                        () => {
+                            this.history = [];
+                            localStorage.removeItem('translationHistory');
+                            this.render();
+                        }
+                    );
+                } else {
+                    if (confirm('Clear all translation history?')) {
+                        this.history = [];
+                        localStorage.removeItem('translationHistory');
+                        this.render();
+                    }
+                }
             }
         });
 
